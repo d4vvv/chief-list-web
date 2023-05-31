@@ -1,7 +1,7 @@
 // Inspired by react-hot-toast library
 import * as React from 'react'
 
-import { ToastActionElement, type ToastProps } from './toast'
+import type { ToastActionElement, ToastProps } from './Toast'
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
@@ -70,6 +70,7 @@ const addToRemoveQueue = (toastId: string) => {
 }
 
 export const reducer = (state: State, action: Action): State => {
+  console.log(action.type)
   switch (action.type) {
     case 'ADD_TOAST':
       return {
@@ -135,10 +136,12 @@ function dispatch(action: Action) {
   })
 }
 
-interface Toast extends Omit<ToasterToast, 'id'> {}
+type Toast = Omit<ToasterToast, 'id'>
 
 function toast({ ...props }: Toast) {
   const id = genId()
+
+  console.log('inside toast')
 
   const update = (props: ToasterToast) =>
     dispatch({
