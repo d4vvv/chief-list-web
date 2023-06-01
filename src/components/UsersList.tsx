@@ -12,7 +12,9 @@ export const UsersList: React.FC<UsersListProps> = ({
   return (
     <div className='flex gap-3'>
       {availableUsers.map(user => (
-        <Toggle onClick={() => onUserClick(user.id)}>{user.name}</Toggle>
+        <Toggle key={user.id} onClick={() => onUserClick(user.id)}>
+          {user.name}
+        </Toggle>
       ))}
     </div>
   )

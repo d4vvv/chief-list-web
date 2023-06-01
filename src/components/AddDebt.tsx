@@ -58,21 +58,20 @@ export const AddDebt: React.FC = () => {
 
     try {
       const user_id = getActiveUser()
-      console.log({ user_id })
-      console.log({ price })
-      console.log({ title })
 
-      const { error } = await supabase
-        .from('debts')
-        .insert([{ user_id, price, title }])
+      if (user_id) {
+        const { error } = await supabase
+          .from('debts')
+          .insert([{ user_id, price: +price, title }])
 
-      if (error) {
-        throw new Error(error.message)
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        toast({
+          description: 'Debt has been added',
+        })
       }
-
-      toast({
-        description: 'Debt has been added',
-      })
     } catch (error) {
       console.error('Error signing in:', error)
     }

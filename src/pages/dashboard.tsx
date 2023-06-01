@@ -1,18 +1,18 @@
-import { User, createClient } from '@supabase/supabase-js'
+import { User } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '../components/ui/Button'
 import { AuthWrapper } from '../components/AuthWrapper'
 import { AddDebt } from '@/components/AddDebt'
-import { getAllUsers } from 'utils/getAllUsers'
+import { supabase } from 'utils/supabaseClient'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ?? ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+interface ActiveUser extends User {
+  name: string | null
+}
 
 export default function Home() {
   const router = useRouter()
-  const [activeUser, setActiveUser] = useState<User | null>(null)
+  const [activeUser, setActiveUser] = useState<ActiveUser | null>(null)
 
   const getUser = async () => {
     {
@@ -21,7 +21,14 @@ export default function Home() {
       } = await supabase.auth.getUser()
 
       if (user) {
-        setActiveUser(user)
+        const { data: name } = await supabase
+          .from('users')
+          .select('name')
+          .eq('id', user.id)
+
+        if (name) {
+          setActiveUser({ ...user, name: name[0].name })
+        }
       }
     }
   }
@@ -42,7 +49,7 @@ export default function Home() {
   return (
     <AuthWrapper>
       <main>
-        <p>Hewwo: </p>
+        <p>Hewwo: {activeUser?.name}</p>
         <p className=''>{activeUser?.email}</p>
         <AddDebt />
         <Button onClick={signOut}>Log out</Button>

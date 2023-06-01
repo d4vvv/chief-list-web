@@ -31,19 +31,28 @@ export interface Database {
       }
       debts: {
         Row: {
+          closed: boolean | null
           created_at: string | null
           id: number
-          user_id: string | null
+          price: number
+          title: string | null
+          user_id: string
         }
         Insert: {
+          closed?: boolean | null
           created_at?: string | null
           id?: number
-          user_id?: string | null
+          price: number
+          title?: string | null
+          user_id: string
         }
         Update: {
+          closed?: boolean | null
           created_at?: string | null
           id?: number
-          user_id?: string | null
+          price?: number
+          title?: string | null
+          user_id?: string
         }
       }
       users: {
