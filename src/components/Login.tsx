@@ -15,7 +15,7 @@ export const Login: React.FC<LoginProps> = ({ onBackClick }) => {
     event.preventDefault()
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
@@ -24,7 +24,9 @@ export const Login: React.FC<LoginProps> = ({ onBackClick }) => {
         throw new Error(error.message)
       }
 
-      window.location.href = '/hewwo'
+      localStorage.setItem('userId', data.user?.id ?? '')
+
+      window.location.href = '/dashboard'
     } catch (error) {
       console.error('Error signing in:', error)
     }

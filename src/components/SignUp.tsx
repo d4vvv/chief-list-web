@@ -10,6 +10,7 @@ interface SignUpProps {
 
 export const SignUp: React.FC<SignUpProps> = ({ onBackClick }) => {
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const { toast } = useToast()
 
@@ -17,13 +18,23 @@ export const SignUp: React.FC<SignUpProps> = ({ onBackClick }) => {
     event.preventDefault()
 
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
       })
 
       if (signUpError) {
         throw new Error(signUpError.message)
+      }
+
+      if (data.user) {
+        const { error } = await supabase
+          .from('users')
+          .insert([{ id: data.user?.id, email, name }])
+
+        if (error) {
+          throw new Error(error.message)
+        }
       }
 
       toast({
@@ -44,6 +55,12 @@ export const SignUp: React.FC<SignUpProps> = ({ onBackClick }) => {
           placeholder='Email'
           value={email}
           onChange={e => setEmail(e.target.value)}
+        />
+        <Input
+          type='text'
+          placeholder='Name'
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
         <Input
           type='password'
