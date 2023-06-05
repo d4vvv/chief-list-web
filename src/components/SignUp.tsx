@@ -41,6 +41,8 @@ export const SignUp: React.FC<SignUpProps> = ({ onBackClick }) => {
         title: 'Confirmation email has been sent',
         description: 'Please check your email to activate the account',
       })
+
+      onBackClick()
     } catch (error) {
       console.error('Error signing in:', error)
     }

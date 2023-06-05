@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <AuthWrapper>
-      <main>
+      <main className='bg-red-100 h-screen'>
         <p>Hewwo: {activeUser?.name}</p>
         <p className=''>{activeUser?.email}</p>
         <AddDebt />

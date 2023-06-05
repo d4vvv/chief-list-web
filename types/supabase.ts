@@ -14,18 +14,21 @@ export interface Database {
           created_at: string | null
           debt_id: number | null
           id: number
+          price: number
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           debt_id?: number | null
           id?: number
+          price: number
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           debt_id?: number | null
           id?: number
+          price?: number
           user_id?: string | null
         }
       }
@@ -34,7 +37,6 @@ export interface Database {
           closed: boolean | null
           created_at: string | null
           id: number
-          price: number
           title: string | null
           user_id: string
         }
@@ -42,7 +44,6 @@ export interface Database {
           closed?: boolean | null
           created_at?: string | null
           id?: number
-          price: number
           title?: string | null
           user_id: string
         }
@@ -50,7 +51,6 @@ export interface Database {
           closed?: boolean | null
           created_at?: string | null
           id?: number
-          price?: number
           title?: string | null
           user_id?: string
         }
