@@ -1,37 +1,13 @@
-import { User } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { Button } from '../components/ui/Button'
-import { AuthWrapper } from '../components/AuthWrapper'
 import { AddDebt } from '@/components/AddDebt'
+import { useActiveUser } from '@/hooks/useActiveUser'
+import { useRouter } from 'next/router'
 import { supabase } from 'utils/supabaseClient'
-
-interface ActiveUser extends User {
-  name: string | null
-}
+import { AuthWrapper } from '../components/AuthWrapper'
+import { Button } from '../components/ui/Button'
 
 export default function Home() {
   const router = useRouter()
-  const [activeUser, setActiveUser] = useState<ActiveUser | null>(null)
-
-  const getUser = async () => {
-    {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
-      if (user) {
-        const { data: name } = await supabase
-          .from('users')
-          .select('name')
-          .eq('id', user.id)
-
-        if (name) {
-          setActiveUser({ ...user, name: name[0].name })
-        }
-      }
-    }
-  }
+  const activeUser = useActiveUser()
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
@@ -41,10 +17,6 @@ export default function Home() {
       router.push('/')
     }
   }
-
-  useEffect(() => {
-    getUser()
-  }, [])
 
   return (
     <AuthWrapper>

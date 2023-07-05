@@ -12,10 +12,10 @@ export interface Database {
       debt_users: {
         Row: {
           created_at: string | null
-          debt_id: number | null
+          debt_id: number
           id: number
           price: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -34,10 +34,10 @@ export interface Database {
       }
       debts: {
         Row: {
-          closed: boolean | null
+          closed: boolean
           created_at: string | null
           id: number
-          title: string | null
+          title: string
           user_id: string
         }
         Insert: {
@@ -57,10 +57,10 @@ export interface Database {
       }
       users: {
         Row: {
-          created_at: string | null
+          created_at: string
           email: string
           id: string
-          name: string | null
+          name: string
         }
         Insert: {
           created_at?: string | null
